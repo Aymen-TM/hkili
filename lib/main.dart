@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hkili/controllers/CategoryController.dart';
 import 'package:hkili/utils/MyBindings.dart';
 import 'package:hkili/views/HomePage.dart';
 
@@ -18,8 +19,8 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        primaryColorDark: Color(0xFF3C302A),
-        primaryColorLight: Color(0xFFE5E5E5),
+        primaryColorDark: const Color(0xFF3C302A),
+        primaryColorLight: const Color(0xFFE5E5E5),
         fontFamily: "eaglelake",
       ),
       initialBinding: MyBindings(),
