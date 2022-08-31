@@ -81,7 +81,7 @@ class StoryCard extends StatelessWidget {
             maxLines: homeController.cardMaxLine,
             overflow: homeController.textOverflow,
           ),
-          homeController.hide == true
+          homeController.hide == false
               ? Divider(
                   color: Theme.of(context).primaryColorDark,
                   thickness: 1,

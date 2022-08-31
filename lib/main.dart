@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:hkili/controllers/CategoryController.dart';
+import 'package:hkili/constants.dart';
+import 'package:hkili/controllers/AuthController.dart';
 import 'package:hkili/utils/MyBindings.dart';
 import 'package:hkili/views/HomePage.dart';
+import 'package:hkili/views/LoginPage.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  try {
+    await firebaseInitialization.then((value) => Get.put(AuthController()));
+  } on PlatformException catch (err) {
+  } catch (err) {}
+
   runApp(const MyApp());
 }
 
@@ -24,7 +34,11 @@ class MyApp extends StatelessWidget {
         fontFamily: "eaglelake",
       ),
       initialBinding: MyBindings(),
-      home: HomePage(),
+      home: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: const [CircularProgressIndicator()],
+      ),
     );
   }
 }

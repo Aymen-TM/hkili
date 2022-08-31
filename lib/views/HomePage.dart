@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:hkili/components/NavigationDrawer.dart';
 import 'package:hkili/components/SearchBar.dart';
 import 'package:hkili/components/StoryCard.dart';
+import 'package:hkili/constants.dart';
 import 'package:hkili/controllers/HomeController.dart';
 import 'package:hkili/controllers/SideDrawerController.dart';
 import 'package:hkili/views/PostPage.dart';
@@ -34,7 +35,9 @@ class HomePage extends StatelessWidget {
                 iconSize: 30,
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  authController.signOut();
+                },
                 icon: CircleAvatar(
                   backgroundColor: Theme.of(context).primaryColorLight,
                   child: Icon(

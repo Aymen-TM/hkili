@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "357067677157",
+    "project_id": "hkili-286e1",
+    "storage_bucket": "hkili-286e1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:357067677157:android:bfa0a1b9ad89af37c5a30c",
+        "android_client_info": {
+          "package_name": "com.example.hkili"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "357067677157-3tcentldnb9cm6a8b4t0mcdhbla3cgsv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hkili",
+            "certificate_hash": "f205410a3cfd3fc09d4aa8ecb81b4bdc08b5b485"
+          }
+        },
+        {
+          "client_id": "357067677157-2e412bhh5h09tagnmalv1ltk76djlai3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCILOm2tZ2n4_L__j7IrMSuRwGFjxdjruU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "357067677157-2e412bhh5h09tagnmalv1ltk76djlai3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "357067677157-00f6jru42ruqcvodlr8osr4kvcenbcq5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.hkili"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

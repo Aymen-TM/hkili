@@ -42,14 +42,19 @@ class PostPage extends StatelessWidget {
                         color: Color(0xff000000))),
               ],
             ),
-            SizedBox(height: 32),
+            const SizedBox(height: 32),
             CategorySelector(context),
-            SizedBox(height: 32),
+            const SizedBox(height: 32),
             StoryField(context),
-            SizedBox(height: 32),
+            const SizedBox(height: 32),
             ElevatedButton(
               onPressed: () => {Get.back()},
-              child: Text(
+              style: ElevatedButton.styleFrom(
+                  side: BorderSide(
+                      width: 1, color: Theme.of(context).primaryColorDark),
+                  fixedSize: const Size(64, 36),
+                  primary: Theme.of(context).primaryColorLight),
+              child: const Text(
                 "Post",
                 style: TextStyle(
                     fontFamily: "montserrat",
@@ -57,11 +62,6 @@ class PostPage extends StatelessWidget {
                     fontSize: 14,
                     color: Colors.black),
               ),
-              style: ElevatedButton.styleFrom(
-                  side: BorderSide(
-                      width: 1, color: Theme.of(context).primaryColorDark),
-                  fixedSize: const Size(64, 36),
-                  primary: Theme.of(context).primaryColorLight),
             ),
           ],
         ),
