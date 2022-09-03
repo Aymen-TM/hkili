@@ -1,30 +1,36 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:get/get.dart';
-import 'package:hkili/constants.dart';
-import 'package:hkili/controllers/AuthController.dart';
-import 'package:hkili/utils/MyBindings.dart';
-import 'package:hkili/views/HomePage.dart';
-import 'package:hkili/views/LoginPage.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:hkili/BL/cubit/auth_cubit.dart';
+import 'package:hkili/app_router.dart';
+
+import 'package:hkili/data/repository/auth_repository.dart';
+import 'package:hkili/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  try {
-    await firebaseInitialization.then((value) => Get.put(AuthController()));
-  } on PlatformException catch (err) {
-  } catch (err) {}
-
-  runApp(const MyApp());
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.android);
+  late FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  late GoogleSignIn googleSignIn = GoogleSignIn();
+  runApp(BlocProvider<AuthCubit>(
+    create: (context) => AuthCubit(
+        FirebaseAuthRepo(auth: firebaseAuth, googleSignIn: googleSignIn)),
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({
+    Key? key,
+  }) : super(key: key);
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -33,12 +39,7 @@ class MyApp extends StatelessWidget {
         primaryColorLight: const Color(0xFFE5E5E5),
         fontFamily: "eaglelake",
       ),
-      initialBinding: MyBindings(),
-      home: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: const [CircularProgressIndicator()],
-      ),
+      routes: appRoutes,
     );
   }
 }

@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:hkili/controllers/SideDrawerController.dart';
-import 'package:hkili/views/CategoryPage.dart';
 
 class NavigationDrawer extends StatelessWidget {
   NavigationDrawer({Key? key}) : super(key: key);
-
-  SideDrawerController drawerController = Get.find<SideDrawerController>();
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +41,7 @@ class NavigationDrawer extends StatelessWidget {
         style: const TextStyle(
             fontFamily: "sans", fontWeight: FontWeight.w400, fontSize: 16),
       ),
-      onTap: () {
-        drawerController.drawerItemClick(category);
-      },
+      onTap: () {},
     );
   }
 }
