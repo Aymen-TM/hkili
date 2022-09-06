@@ -8,7 +8,7 @@ import 'package:hkili/presentation/HomePage.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
-  static const rounteName = '/';
+  static const rounteName = '/login';
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -17,7 +17,9 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
   @override
   void initState() {
-    WidgetsBinding.instance.addObserver(this);
+    //WidgetsBinding.instance.addObserver(this);
+    //final authCubit = BlocProvider.of<AuthCubit>(context);
+    //WidgetsBinding.instance.addPostFrameCallback((_) => authCubit.isLoggedIn());
     super.initState();
   }
 
@@ -31,27 +33,29 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthLoading) {
-          showDialog(
-              barrierDismissible: false,
-              context: context,
-              builder: (_) {
-                return Dialog(
-                  child: Container(
-                    height: 200,
-                    width: 200,
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: const [
-                          CircularProgressIndicator(),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text("Loading....")
-                        ]),
-                  ),
-                );
-              });
+          if (!state.loading) {
+            showDialog(
+                barrierDismissible: false,
+                context: context,
+                builder: (_) {
+                  return Dialog(
+                    child: Container(
+                      height: 200,
+                      width: 200,
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: const [
+                            CircularProgressIndicator(),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text("Loading....")
+                          ]),
+                    ),
+                  );
+                });
+          }
         } else if (state is Authenticated) {
           Navigator.of(context)
               .push(MaterialPageRoute(builder: (context) => HomePage()));

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hkili/BL/cubit/auth_state.dart';
 import 'package:hkili/constants.dart';
@@ -8,9 +9,13 @@ class AuthCubit extends Cubit<AuthState> {
   final AuthRepository _authRepository;
   AuthCubit(this._authRepository) : super(AuthInitial());
 
+  UserModel? currentUser() {
+    return _authRepository.currentUser();
+  }
+
   Future login(String email, String password) async {
     try {
-      emit(AuthLoading());
+      emit(AuthLoading(loading: false));
       await _authRepository.login(email, password);
       UserModel? currentUser = _authRepository.currentUser();
       if (currentUser != null) {
@@ -25,11 +30,12 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future loginWithGoogle() async {
     try {
-      emit(AuthLoading());
+      emit(AuthLoading(loading: false));
       await _authRepository.signInWithGoogle();
       UserModel? currentUser = _authRepository.currentUser();
       if (currentUser != null) {
         emit(Authenticated(currentUser));
+        AuthLoading(loading: true);
       } else {
         emit(NotAuthenticated());
       }
@@ -40,7 +46,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future register(String email, String password) async {
     try {
-      emit(AuthLoading());
+      emit(AuthLoading(loading: false));
       await _authRepository.register(email, password);
       UserModel? currentUser = _authRepository.currentUser();
       emit(Authenticated(currentUser));
@@ -51,7 +57,6 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future logout() async {
     try {
-      emit(AuthLoading());
       await _authRepository.logout();
       await googleSign.signOut();
       emit(NotAuthenticated());
@@ -62,7 +67,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future submitPasswordReset(String email) async {
     try {
-      emit(AuthLoading());
+      emit(AuthLoading(loading: false));
       await _authRepository.passwordResetSubmit(email);
       emit(PasswordRequestSubmitted());
     } catch (e) {
@@ -72,7 +77,6 @@ class AuthCubit extends Cubit<AuthState> {
 
   void isLoggedIn() {
     try {
-      emit(AuthLoading());
       if (_authRepository.currentUser() != null) {
         UserModel? currentUser = _authRepository.currentUser();
         emit(Authenticated(currentUser));
@@ -86,7 +90,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future isFirstRun() async {
     try {
-      emit(AuthLoading());
+      emit(AuthLoading(loading: false));
       if (await _authRepository.isFirstRun()) {
         emit(FirstRun());
       } else {
@@ -101,7 +105,7 @@ class AuthCubit extends Cubit<AuthState> {
   Future updatePersonalData(
       String firstName, String lastName, String birthday) async {
     try {
-      emit(AuthLoading());
+      emit(AuthLoading(loading: false));
       await _authRepository.updatePersonalData(firstName, lastName, birthday);
       emit(PersonalDataUpdated());
     } catch (e) {

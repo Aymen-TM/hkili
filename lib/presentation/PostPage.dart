@@ -1,12 +1,29 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
+import 'package:hkili/BL/cubit/auth_cubit.dart';
+import 'package:hkili/BL/cubit/fire_store_cubit.dart';
+import 'package:hkili/data/models/Story.dart';
 
-class PostPage extends StatelessWidget {
+class PostPage extends StatefulWidget {
   PostPage({Key? key}) : super(key: key);
+
+  static const rounteName = '/post';
+
+  @override
+  _PostPageState createState() => _PostPageState();
+}
+
+class _PostPageState extends State<PostPage> {
+  var postController = TextEditingController();
+  var categories = ["Action", "Drama", "Crime", "Comedy", "Horror", "History"];
+  String? selectedVlaue = "Action";
 
   @override
   Widget build(BuildContext context) {
+    final currentUser = BlocProvider.of<AuthCubit>(context).currentUser();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Hkili",
@@ -43,7 +60,13 @@ class PostPage extends StatelessWidget {
             StoryField(context),
             const SizedBox(height: 32),
             ElevatedButton(
-              onPressed: () => {},
+              onPressed: () => {
+                BlocProvider.of<FireStoreCubit>(context).addStory(
+                    currentUser!.uid,
+                    postController.text,
+                    currentUser.name,
+                    selectedVlaue)
+              },
               style: ElevatedButton.styleFrom(
                   side: BorderSide(
                       width: 1, color: Theme.of(context).primaryColorDark),
@@ -94,8 +117,8 @@ class PostPage extends StatelessWidget {
               color: Colors.black,
               size: 10,
             ),
-            value: "Actions",
-            items: ["Actions", "Drama"]
+            value: selectedVlaue,
+            items: categories
                 .map((item) => DropdownMenuItem<String>(
                       value: item,
                       child: Text(
@@ -107,7 +130,11 @@ class PostPage extends StatelessWidget {
                       ),
                     ))
                 .toList(),
-            onChanged: (value) {}),
+            onChanged: (value) {
+              setState(() {
+                selectedVlaue = value;
+              });
+            }),
       ),
     );
   }
@@ -116,6 +143,7 @@ class PostPage extends StatelessWidget {
     return Expanded(
       child: Container(
         child: TextField(
+          controller: postController,
           expands: true,
           minLines: null,
           maxLines: null,

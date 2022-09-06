@@ -9,7 +9,8 @@ class AuthInitial extends AuthState {
 }
 
 class AuthLoading extends AuthState {
-  const AuthLoading();
+  bool loading;
+  AuthLoading({required this.loading});
 }
 
 class Authenticated extends AuthState {
