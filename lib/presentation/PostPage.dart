@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:hkili/BL/cubit/auth_cubit.dart';
 import 'package:hkili/BL/cubit/fire_store_cubit.dart';
+import 'package:hkili/app_router.dart';
 import 'package:hkili/data/models/Story.dart';
 
 class PostPage extends StatefulWidget {
@@ -65,7 +66,9 @@ class _PostPageState extends State<PostPage> {
                     currentUser!.uid,
                     postController.text,
                     currentUser.name,
-                    selectedVlaue)
+                    selectedVlaue,
+                    currentUser.photo),
+                Navigator.pop(context)
               },
               style: ElevatedButton.styleFrom(
                   side: BorderSide(
@@ -97,7 +100,7 @@ class _PostPageState extends State<PostPage> {
               filled: true,
               fillColor: Theme.of(context).primaryColorLight,
               prefixIcon: Icon(
-                FontAwesome5.bars,
+                Icons.sort_rounded,
                 size: 20,
                 color: Colors.black,
               ),

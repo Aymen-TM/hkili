@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -13,13 +14,16 @@ import 'package:hkili/data/repository/auth_repository.dart';
 import 'package:hkili/data/repository/fire_store_repo.dart';
 import 'package:hkili/firebase_options.dart';
 import 'package:hkili/presentation/SplashPage.dart';
-import 'package:hkili/utils/Constants.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  GoogleSignIn googleSignIn = GoogleSignIn();
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  firebaseAuth.useAuthEmulator('localhost', 9099);
+  firebaseFirestore.useFirestoreEmulator('localhost', 8080);
 
-  //firebaseAuth.useAuthEmulator('localhost', 9099);
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider<AuthCubit>(

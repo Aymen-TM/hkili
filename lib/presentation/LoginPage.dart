@@ -15,14 +15,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
-  @override
-  void initState() {
-    //WidgetsBinding.instance.addObserver(this);
-    //final authCubit = BlocProvider.of<AuthCubit>(context);
-    //WidgetsBinding.instance.addPostFrameCallback((_) => authCubit.isLoggedIn());
-    super.initState();
-  }
-
   void loginWithGoogle() async {
     final authCubit = BlocProvider.of<AuthCubit>(context);
     await authCubit.loginWithGoogle();

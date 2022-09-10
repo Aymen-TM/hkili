@@ -9,8 +9,8 @@ import 'package:hkili/BL/cubit/fire_store_cubit.dart';
 import 'package:hkili/components/NavigationDrawer.dart';
 import 'package:hkili/components/SearchBar.dart';
 import 'package:hkili/components/StoryCard.dart';
+import 'package:hkili/data/models/Story.dart';
 import 'package:hkili/presentation/LoginPage.dart';
-import 'package:hkili/utils/Constants.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -26,6 +26,9 @@ class _HomePageState extends State<HomePage> {
     authCubit.logout();
   }
 
+  final Stream<QuerySnapshot> stories =
+      FirebaseFirestore.instance.collection('stories').snapshots();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,14 +40,19 @@ class _HomePageState extends State<HomePage> {
           leading: BlocBuilder<AuthCubit, AuthState>(
             builder: (context, state) {
               return IconButton(
-                icon: const Icon(FontAwesome5.bars),
+                icon: const Icon(Icons.sort_rounded),
                 onPressed: () => {},
+                iconSize: 32,
               );
             },
           ),
           actions: [
             IconButton(
-              onPressed: () => {Navigator.of(context).pushNamed("/post")},
+              onPressed: () => {
+                Navigator.of(context)
+                    .pushNamed("/post")
+                    .then((f) => setState(() {}))
+              },
               icon: Icon(CupertinoIcons.plus_square),
               iconSize: 30,
             ),
@@ -70,33 +78,38 @@ class _HomePageState extends State<HomePage> {
                   .push(MaterialPageRoute(builder: (context) => LoginPage()));
             }
           },
-          child: FutureBuilder<QuerySnapshot>(
-              future: BlocProvider.of<FireStoreCubit>(context).getAllStories(),
+          child: StreamBuilder<QuerySnapshot>(
+              stream: BlocProvider.of<FireStoreCubit>(context).getAllStories(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (!snapshot.hasData) {
-                  return CircularProgressIndicator();
-                } else {
-                  return Container(
-                    child: Column(
-                      children: [
-                        SearchBar(),
-                        Expanded(
-                          child: ListView.separated(
-                              itemBuilder: (context, index) {
-                                return StoryCard();
-                              },
-                              separatorBuilder: (context, index) {
-                                return SizedBox(
-                                  height: 24,
-                                );
-                              },
-                              itemCount: snapshot.data!.size),
-                        ),
-                      ],
-                    ),
-                  );
+                if (snapshot.hasError) {
+                  return Text('Something went wrong');
                 }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Text("Loading");
+                }
+                return Container(
+                  child: Column(
+                    children: [
+                      SearchBar(),
+                      Expanded(
+                        child: ListView.separated(
+                            itemBuilder: (context, index) {
+                              return StoryCard(
+                                story: Story.fromFirestore(
+                                    snapshot.data!.docs[index]),
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return SizedBox(
+                                height: 24,
+                              );
+                            },
+                            itemCount: snapshot.data!.docs.length),
+                      ),
+                    ],
+                  ),
+                );
               }),
         ));
   }

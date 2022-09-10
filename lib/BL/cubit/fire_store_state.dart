@@ -13,3 +13,10 @@ class DataSending extends FireStoreState {
   bool received = false;
   DataSending({required this.received});
 }
+
+class loaded extends FireStoreState {
+  Future<QuerySnapshot>? data;
+  loaded({this.data});
+}
+
+class loading extends FireStoreState {}
